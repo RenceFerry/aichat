@@ -9,6 +9,10 @@ module.exports = {
     extend: {
       fontFamily: {
         inter : ['var(--font-inter)']
+      },
+      colors: {
+        back: 'var(--background)',
+        fore: 'var(--foreground)'
       }
     },
   },
