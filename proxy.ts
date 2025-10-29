@@ -13,6 +13,6 @@ export default async function proxy(req: NextRequest){
 
 export const config = {
   matcher: [
-    '/((?!api|_next/static|_next/image|.*\\.png$|login|$).*)',
+    '/((?!api|_next/static|_next/image|.*\\.png$|login|signup|$).*)',
   ],
 }
