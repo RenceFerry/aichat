@@ -35,47 +35,42 @@ export default function Nav() {
         </div>
 
         <div className="flex flex-1 items-center justify-evenly gap-3 font-semibold text-sm flex-wrap md:h-full md:text-md md:flex-nowrap">
-          <Button className="border-2 border-fore bg-back text-fore flex items-center w-20 justify-center h-8 px-2 hover rounded-lg" children={
+          <Button className="border-2 border-fore bg-back text-fore flex items-center w-20 justify-center h-8 px-2 hover rounded-lg">
             <Link href={'/'}>
               <span >Github</span>
             </Link>
-          }/>
-          <Button className="flex items-center bg-blue-500 text-white w-20 justify-center h-8 px-2 rounded-lg hover" children={
+          </Button>
+          <Button className="flex items-center bg-blue-500 text-white w-20 justify-center h-8 px-2 rounded-lg hover">
             <Link href={'/'}>
               <span >Log in</span>
             </Link>
-          }/>
-          <Button className="text-back bg-fore flex items-center w-20 justify-center h-8 px-2 rounded-lg hover" children={
+          </Button>
+          <Button className="text-back bg-fore flex items-center w-20 justify-center h-8 px-2 rounded-lg hover">
             <Link href={'/'}>
               <span >Sign up</span>
             </Link>
-          }/>
+          </Button>
             
         </div>
       </div>
 
       <div className="absolute right-3 h-full flex items-center md:hidden hover" onClick={()=>setShow(!show)}>
-          <Button 
-            children={
-              <>
-                <motion.span animate={show? {rotate: 45, y: 10} : {rotate: 0, y: 0}}
-                  transition={{duration: 0.3}}
-                  className="block h-0.5 w-full bg-fore"
-                />
+          <Button className='flex flex-col justify-between h-6 w-8'>
+            <motion.span animate={show? {rotate: 45, y: 10} : {rotate: 0, y: 0}}
+              transition={{duration: 0.3}}
+              className="block h-0.5 w-full bg-fore"
+            />
 
-                <motion.span animate={show? {opacity: 0} : {opacity: 1}}
-                  transition={{duration: 0.3}}
-                  className="block h-0.5 w-full bg-fore"
-                />
+            <motion.span animate={show? {opacity: 0} : {opacity: 1}}
+              transition={{duration: 0.3}}
+              className="block h-0.5 w-full bg-fore"
+            />
 
-                <motion.span animate={show? {rotate: -45, y: -12} : {rotate: 0, y: 0}}
-                  transition={{duration: 0.3}}
-                  className="block h-0.5 w-full bg-fore"
-                />
-              </>
-            }
-            className='flex flex-col justify-between h-6 w-8'
-          />
+            <motion.span animate={show? {rotate: -45, y: -12} : {rotate: 0, y: 0}}
+              transition={{duration: 0.3}}
+              className="block h-0.5 w-full bg-fore"
+            />
+          </Button>
         </div>
     </div>
   );

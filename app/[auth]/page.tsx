@@ -34,6 +34,10 @@ export default function Page() {
     }
   }
 
+  const submitForm = () => {
+    
+  }
+
   const Reset = () => {}
 
   return (
@@ -45,7 +49,7 @@ export default function Page() {
             <h1>AI Chat</h1>
           </div>
         </Link>
-        <form className='min-w-52' action="">
+        <form className='min-w-52' action={submitForm}>
           {
             !isLoginPage && (
             <div className='my-4 flex flex-col gap-2 text-fore'>
@@ -64,7 +68,7 @@ export default function Page() {
 ' type="password" id="password" name="password" />
           </div>
           <div>
-            <button className='rounded-md h-10 my-3 w-full wd:w-96 flex items-center justify-center bg-blue-500 text-semibold text-white hover'>
+            <button className='rounded-md h-10 my-3 w-full wd:w-96 flex items-center justify-center bg-blue-500 text-semibold text-white hover' type='submit'>
               {isLoginPage ? 'Log In' : 'Sign Up'}
             </button>
           </div>

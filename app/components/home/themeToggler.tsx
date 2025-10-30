@@ -9,11 +9,12 @@ export const ThemeToggler = () => {
   const {theme, setTheme} = useTheme();
   const [mounted, setMounted] = useState(false);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(()=>setMounted(true), []);
   if (!mounted) return null
 
   return (
-    <button className='hover absolute bottom-3 left-3' onClick={()=>setTheme(theme === 'dark'? 'light' : 'dark')}>
+    <button className='hover absolute bottom-3 left-3' onClick={async()=> await setTheme(theme === 'dark'? 'light' : 'dark')}>
       {theme === 'dark' ? (
         <FiMoon size={30} className='text-fore'/>
       ) : (
