@@ -20,9 +20,16 @@ export type FormState =
   |
   {
     error?: {
-      name?: string[],
-      email?: string[],
-      password?: string[],
+      error?: string[],
+      name?: {
+        _errors: string[],
+      },
+      email?: {
+        _errors: string[],
+      },
+      password?: {
+        _errors: string[],
+      },
     }
     message?: string
   }
