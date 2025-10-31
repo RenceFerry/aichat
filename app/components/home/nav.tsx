@@ -41,12 +41,12 @@ export default function Nav() {
             </Link>
           </Button>
           <Button className="flex items-center bg-blue-500 text-white w-20 justify-center h-8 px-2 rounded-lg hover">
-            <Link href={'/'}>
+            <Link href={'/login'}>
               <span >Log in</span>
             </Link>
           </Button>
           <Button className="text-back bg-fore flex items-center w-20 justify-center h-8 px-2 rounded-lg hover">
-            <Link href={'/'}>
+            <Link href={'/signup'}>
               <span >Sign up</span>
             </Link>
           </Button>
