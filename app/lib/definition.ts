@@ -1,10 +1,6 @@
 import * as z from 'zod' 
 
-export const SignUpSchema = z.object({
-  name: z
-    .string()
-    .trim()
-    .min(2, {error: 'Name must be at least 2 characters long.'}),
+export const SignInSchema = z.object({
   email: z
     .email({error: 'Please enter a valid email address.'})
     .trim(),
@@ -14,6 +10,13 @@ export const SignUpSchema = z.object({
     .regex(/[a-zA-Z]/, {error: 'Password must contain at least one letter.'})
     .regex(/[0-9]/, {error: 'Password must contain at least one number.'})
     .trim(),
+})
+
+export const SignUpSchema = SignInSchema.extend({
+  name: z
+    .string()
+    .trim()
+    .min(2, {error: 'Name must be at least 2 characters long.'}),
 })
 
 export type FormState =

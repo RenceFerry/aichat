@@ -1,12 +1,13 @@
 'use server'
 
-import { pool } from '@/lib/db'
-import { SignUpSchema, FormState } from '@/lib/definition'
+import { sql } from '@/lib/db'
+import { SignUpSchema, FormState, SignInSchema } from '@/lib/definition'
 import z from 'zod'
 import  bcrypt  from 'bcryptjs'
 import { signIn } from '@/../auth'
+import { redirect } from 'next/navigation'
 
-export async function signUp(state: FormState, formData: FormData) {
+export async function signUpAction(state: FormState, formData: FormData) {
   const validatedData = SignUpSchema.safeParse({
     name: formData.get('name'),
     email: formData.get('email'),
@@ -24,28 +25,16 @@ export async function signUp(state: FormState, formData: FormData) {
 
   const hashedPassword = await bcrypt.hash(password, 10)
 
-  try{
-    await pool.query(
-      'INSERT INTO users(name, email, password) values($1, $2, $3)',
-      [name, email, hashedPassword]
-    )
+  let id;
 
-    const id = await pool.query(
-      'SELECT id FROM users WHERE email = $1',
-      [email]
-    )
+  try {
+    await sql`
+      INSERT INTO users(name, email, password) values(${name}, ${email}, ${hashedPassword})
+    `
 
-    await signIn('credentials', {
-      redirect: true,
-      email,
-      password,
-      callbackUrl: `/chat/${id.rows[0].id}`,
-    })
-
-    return {
-      message: 'User created successfully',
-    }    
-
+    id = await sql`
+      SELECT id FROM users WHERE email = ${email}
+    `
   } catch (error: any) {
     console.error('Error inserting user:', error)
     if (error.code === '23505') {
@@ -57,4 +46,69 @@ export async function signUp(state: FormState, formData: FormData) {
       message: 'Failed to create user',
     }
   }
+
+  const isSignedIn = await signIn('credentials', {
+    redirect: false,
+    email: email,
+    password: password,
+  })
+
+  if (!isSignedIn || isSignedIn.error) {
+    return {
+      message: 'Invalid email or password',
+    }
+  }
+
+  redirect(`/chat/${id[0].id}`);
+
 }
+
+export async function signInAction(state: FormState, formData: FormData) {
+  const validatedData = SignInSchema.safeParse({
+    email: formData.get('email'),
+    password: formData.get('password')
+  })
+
+  if (!validatedData.success) {
+    return {
+      errors: z.treeifyError(validatedData.error),
+      message: 'Invalid inputs'
+    }
+  }
+
+  let user;
+
+  try {
+    user = await sql`
+      SELECT * FROM users WHERE email = ${validatedData.data.email}
+    `
+
+    if (user.length === 0) {
+      return {
+        message: 'No user found with this email. Sign up instead?',
+      }
+    }
+
+    console.log('Signing in user:', user[0]);
+
+    const isSignedIn = await signIn('credentials', {
+      redirect: false,
+      email: validatedData.data.email,
+      password: validatedData.data.password,
+    })
+
+    if (!isSignedIn || isSignedIn.error) {
+      return {
+        message: 'Invalid email or password',
+      }
+    }
+
+    
+  } catch (error) {
+    console.error('Error signing in:', error)
+    return {
+      message: 'Failed to sign in',
+    }
+  }
+  redirect(`/chat/${user[0].id}`);
+} 

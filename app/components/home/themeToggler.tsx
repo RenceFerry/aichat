@@ -14,7 +14,7 @@ export const ThemeToggler = () => {
   if (!mounted) return null
 
   return (
-    <button className='hover absolute bottom-3 left-3' onClick={async()=> await setTheme(theme === 'dark'? 'light' : 'dark')}>
+    <button className='hover absolute bottom-3 left-3 z-30' onClick={async()=> await setTheme(theme === 'dark'? 'light' : 'dark')}>
       {theme === 'dark' ? (
         <FiMoon size={30} className='text-fore'/>
       ) : (

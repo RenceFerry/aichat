@@ -2,8 +2,16 @@ import Nav from "./components/home/nav";
 import Link from 'next/link'
 import { Button } from '@/ui/ui'
 import { FaArrowRight } from "react-icons/fa";
+import { auth } from '@/../auth';
+import { redirect } from "next/navigation";
+import { ThemeToggler } from "./components/home/themeToggler";
 
-export default function Page() {
+export default async function Page() {
+  const session  = await  auth();
+
+  if (session) redirect(`/chat/${session.user.id}`);
+
+
   return (
     <div className="p-0 m-0 h-full w-full flex flex-col items-center justify-start relative">
       <Nav />
@@ -17,9 +25,7 @@ export default function Page() {
           </Link>
         </Button>
       </div>
-
-      
-     
+      <ThemeToggler/>
     </div>
   );
 }
