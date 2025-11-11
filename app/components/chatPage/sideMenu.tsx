@@ -8,6 +8,7 @@ import SideSettings from "@/components/chatPage/sideSettings"
 import { ThemeToggler } from "@/components/home/themeToggler";
 import { sideProfileProps } from "@/ui/ui";
 import {useEffect} from "react";
+import React from 'react';
 
 interface SideMenuProps {
   user: any;

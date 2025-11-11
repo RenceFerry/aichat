@@ -8,6 +8,7 @@ import { AutoResizeTextarea } from "@/components/chatPage/AutoResizeTextarea";
 import { useState, useRef, useEffect } from "react";
 import  SideMenu  from '@/components/chatPage/sideMenu'
 import { AnimatePresence, motion } from "framer-motion";
+import React from 'react';
 
 export default function Page() {
   const { data: session } = useSession();
@@ -15,7 +16,8 @@ export default function Page() {
   const [ isMediaQuery, setIsMediaQuery ] = useState(false);
   const [ showSettings, setShowSettings ] = useState(false);
   const [ showProfile, setShowProfile ] = useState(false);
-
+  const [ bottom, setBottom ] = useState("2.3rem");
+  let keyboardOpen;
 
   useEffect(() => {
     const checkMediaQuery = () => {
@@ -28,12 +30,18 @@ export default function Page() {
     // Add resize listener
     window.addEventListener('resize', checkMediaQuery);
     
+    keyboardOpen = (e) => {
+      const bottomPx = window.innerHeight - window.visualViewport.height;
+      
+      setBottom(`${bottom}px`)
+    }
     // Cleanup
     return () => window.removeEventListener('resize', checkMediaQuery);
   }, []);
+  
 
   return (
-    <div className="flex flex-row h-screen w-full relative overflow-hidden" style={{
+    <div className="flex flex-row h-full w-full relative overflow-hidden" style={{
       '--sidenav-width': 'min(max(40%, 14rem), 24rem)'
     } as React.CSSProperties}>
       {/*sideMenu*/}
@@ -58,33 +66,34 @@ export default function Page() {
         </button>
 
         {/* header*/}
-        <div className='w-full h-14 flex flex-row justify-between items-center'>
-          <div className="flex items-center ml-7 text-sm md:text-xl">
+        <div className='w-full h-14 flex flex-row justify-between items-center fixed top-0 left-0'>
+          <div className="flex items-center ml-7 text-md md:text-2xl">
             <RiChatAiFill size='1.5em' className="text-fore"/>
             <span className="ml-2 font-extrabold text-fore">AI Chat</span>
           </div>
 
           <div className="flex flex-row gap-2 justify-center items-center mr-7">
-            <span className="font-normal text-sm">GPT-4</span>
+            <span className="font-normal text-md md:text-2xl">GPT-4</span>
             <button>
-              <GiSettingsKnobs size={20} className="text-fore rotate-90 hover cursor-pointer"/>
+              <GiSettingsKnobs size={30} className="text-fore rotate-90 hover cursor-pointer"/>
             </button>
           </div>
         </div>
         {/* logo */}
-        <div className="flex flex-col items-center gap-4 m-auto">
+        <div className="flex-1 flex flex-col items-center gap-4 m-auto w-full justify-center">
           <RiChatAiFill size={50} className="text-fore"/>
           <span className="text-3xl font-extrabold self-center text-fore text-center px-8">What's Up {session?.user?.name?.split(' ')[0] || session?.user?.name}?</span>
         </div>
 
         {/* input */}
-        <div className="w-full flex justify-center items-center mb-10">
-          <form action="" className="w-full flex justify-center items-center">
+        <div className={`w-full flex justify-center items-center w-full absolute bottom-[${"2.5rem"}]`}>
+          <form action="" className="w-full flex justify-center items-center relative">
             <AutoResizeTextarea 
               className="msg border-[1px] border-gray-600 rounded-md pt-2 px-14 bg-back text-fore w-[90%] sm:w-[80%] md:w-[70%] lg:w-[50%]"
               placeholder="Ask anything..."
               maxHeight="200px"
               minHeight="50px"
+              onFocus={keyboardOpen}
             />
           </form>
         </div>

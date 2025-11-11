@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${Inter.variable} font-inter antialiased h-screen w-screen bg-back p-0 m-0 text-fore`}
+        className={`${Inter.variable} font-inter antialiased h-[100dvh] w-[100dvw] bg-back p-0 m-0 text-fore`}
       >
         <ThemeWrapper>
           <SessionWrapper>
