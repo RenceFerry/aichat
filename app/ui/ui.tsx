@@ -1,12 +1,13 @@
 import { AutoResizeTextarea } from "@/components/chatPage/AutoResizeTextarea";
 import React from "react";
 import { TbLogout } from "react-icons/tb";
+import { BiHomeAlt } from "react-icons/bi";
 
 type BtnProps = React.ComponentProps<'button'>;
 type InputProps = React.ComponentProps<'input'>;
 
 interface SideType {
-  title: [string, React.ReactElement];
+  title: [string, string, React.ReactElement];
   sub?: string;
   isOpen: boolean;
   tabs: {
@@ -36,7 +37,7 @@ const Input = ({...props}: InputProps) => {
 
 export const sideProfileProps = {
     // eslint-disable-next-line react/jsx-key
-  title: ["Profile", <TbLogout size={20} className="text-back"/>],
+  title: ["Profile", "Logout", <TbLogout size={20} className="text-back"/>],
   sub: "Configure profile settings.",
   isOpen: false,
   tabs: [
@@ -51,7 +52,7 @@ export const sideProfileProps = {
         {
           for: "image",
           label: "Profile image",
-          content: <Button className="p-2 bg-fore rounded-md w-full text-back" name='username' type="button" children="Set profile image"/>
+          content: <Button className="p-2 bg-fore rounded-md w-full text-back" name='image' type="button" children="Set profile image"/>
         },
         {
           for: "iam",
@@ -77,10 +78,34 @@ export const sideProfileProps = {
   ]
 } as SideType;
 
-// export const sideSettingsProps = {
-//   title: ["Settings", <p>kj</p>],
-//   sub: "This is your Home Workspace for personal use.",
-//   isOpen: false,
-// } as SideType;
+export const sideSettingsProps = {
+    // eslint-disable-next-line react/jsx-key
+  title: ["Settings", "Home", <BiHomeAlt size={20} className="text-back"/>],
+  sub: "Configure your settings.",
+  isOpen: false,
+  tabs: [
+    {
+      name: "Main",
+      items: [
+        {
+          for: "workname",
+          label: "Workspace Image",
+          content: <Input className="p-2 bg-back rounded-md outline-none border border-gray-500 w-full focus:border-2 focus:border-fore" name="workname" placeholder="Set your usename"/>
+        },
+        {
+          for: "workimage",
+          label: "Workspace image",
+          content: <Button className="p-2 bg-fore rounded-md w-full text-back" name='workimage' type="button" children="Set workspace image"/>
+        },
+      ]
+    },
+    {
+      name: "Defaults",
+      items: []
+    },
+  ]
+} as SideType;
+
+
 
 export type { SideType };

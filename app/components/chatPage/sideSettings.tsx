@@ -16,7 +16,7 @@ const SideSettings = ({ props: {title, isOpen, sub, tabs} }: { props: SideType }
         animate={{x: "0%"}}
         exit={{x: "-100%"}}
         transition={{type: "tween"}}
-        className="flex fle-row w-full h-full border border-transparent border-r-gray-500 bg-back top-0 left-0 absolute z-20">
+        className="flex flex-col justify-between fle-row w-full h-full border border-transparent border-r-gray-500 bg-back top-0 left-0 absolute z-20">
           <div className="h-full w-full flex flex-col items-center m-3 md:m-5 gap-3 justify-start">
 
             {/* header */}
@@ -30,8 +30,8 @@ const SideSettings = ({ props: {title, isOpen, sub, tabs} }: { props: SideType }
                 <button className="px-4 h-8 w-[30%] min-w-28 max-w-36 bg-fore flex flex-row items-center justify-center rounded-md hover">
                   {
                     <>
-                      {title[1]}     
-                      <span className="font-normal text-xs md:text-sm ml-1 text-back">Logout</span>
+                      {title[2]}     
+                      <span className="font-normal text-xs md:text-sm ml-1 text-back">{title[1]}</span>
                     </>
                   }
                 </button>
@@ -71,6 +71,11 @@ const SideSettings = ({ props: {title, isOpen, sub, tabs} }: { props: SideType }
               </form>
             </div>
 
+          </div>
+          {/** saving or canceling */}
+          <div className="flex flex-row justify-end gap-3 items-center">
+            <div className="flex items-center justify-center rounded-md h-10 w-24 bg-back text-fore font-normal text-md">Cancel</div>
+            <div className="flex items-center justify-center rounded-md h-10 w-24 bg-back text-foer font-normal text-md">Save</div>
           </div>
         </motion.div>
       )}

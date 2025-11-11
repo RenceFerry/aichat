@@ -16,7 +16,7 @@ export default function Page() {
   const [ isMediaQuery, setIsMediaQuery ] = useState(false);
   const [ showSettings, setShowSettings ] = useState(false);
   const [ showProfile, setShowProfile ] = useState(false);
-  const [ bottom, setBottom ] = useState("2.3rem");
+  const [ bottom, setBottom ] = useState("2.5rem");
   let keyboardOpen;
 
   useEffect(() => {
@@ -30,8 +30,8 @@ export default function Page() {
     // Add resize listener
     window.addEventListener('resize', checkMediaQuery);
     
-    keyboardOpen = (e) => {
-      const bottomPx = window.innerHeight - window.visualViewport.height;
+    keyboardOpen = () => {
+      //const bottomPx = window.innerHeight - (window.visualViewport.height || 0);
       
       setBottom(`${bottom}px`)
     }
@@ -86,7 +86,7 @@ export default function Page() {
         </div>
 
         {/* input */}
-        <div className={`w-full flex justify-center items-center w-full absolute bottom-[${"2.5rem"}]`}>
+        <div className={`w-full flex justify-center items-center absolute bottom-[2.5rem]`}>
           <form action="" className="w-full flex justify-center items-center relative">
             <AutoResizeTextarea 
               className="msg border-[1px] border-gray-600 rounded-md pt-2 px-14 bg-back text-fore w-[90%] sm:w-[80%] md:w-[70%] lg:w-[50%]"

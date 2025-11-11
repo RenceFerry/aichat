@@ -8,10 +8,6 @@ export default auth((req) => {
     return NextResponse.redirect(new URL('/login', req.url))
   }
 
-  console.log(req.nextUrl)
-  console.log(req.auth?.user.id)
-  console.log(Number(req.nextUrl.pathname.split('/').filter(Boolean)[1]) === Number(req.auth?.user.id))
-
   // If the user is logged in and trying to access /login or /signup, redirect to chat
   if (req.auth && ((req.nextUrl.pathname.startsWith('/login') || req.nextUrl.pathname.startsWith('/signup')) || Number(req.nextUrl.pathname.split('/').filter(Boolean)[1]) !== Number(req.auth?.user.id))) {
     return NextResponse.redirect(new URL(`/chat/${req.auth?.user.id}`, req.url))

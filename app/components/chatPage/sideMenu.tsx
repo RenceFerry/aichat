@@ -6,7 +6,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import SideSettings from "@/components/chatPage/sideSettings"
 import { ThemeToggler } from "@/components/home/themeToggler";
-import { sideProfileProps } from "@/ui/ui";
+import { sideProfileProps, sideSettingsProps } from "@/ui/ui";
 import {useEffect} from "react";
 import React from 'react';
 
@@ -21,6 +21,8 @@ const SideMenu = ({ user, isOpen = true, setSettings, setProfile }: SideMenuProp
   const [ showSettings, setShowSettings ] = setSettings;
   const [ showProfile, setShowProfile ] = setProfile;
   const sideProfile = {...sideProfileProps};
+  const sideSettings = {...sideSettingsProps};
+  sideSettings.isOpen = showSettings;
   sideProfile.isOpen = showProfile;
   
   return (
@@ -36,6 +38,9 @@ const SideMenu = ({ user, isOpen = true, setSettings, setProfile }: SideMenuProp
           {/*side settings */}
           <AnimatePresence>
             <SideSettings props={sideProfile} />
+          </AnimatePresence>
+          <AnimatePresence>
+            <SideSettings props={sideSettings} />
           </AnimatePresence>
 
           {/* side header */}
