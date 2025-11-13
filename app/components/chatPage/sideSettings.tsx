@@ -7,6 +7,7 @@ import React from "react";
 
 const SideSettings = ({ props: {title, isOpen, sub, tabs} }: { props: SideType }) => {
   const [ tabShown, setTabShown ] = useState("Profile");
+  const [ tabSettingsShown, setTabSettingsShown ] = useState("Main");
 
   return (
     <AnimatePresence>
@@ -16,8 +17,8 @@ const SideSettings = ({ props: {title, isOpen, sub, tabs} }: { props: SideType }
         animate={{x: "0%"}}
         exit={{x: "-100%"}}
         transition={{type: "tween"}}
-        className="flex flex-col justify-between fle-row w-full h-full border border-transparent border-r-gray-500 bg-back top-0 left-0 absolute z-20">
-          <div className="h-full w-full flex flex-col items-center m-3 md:m-5 gap-3 justify-start">
+        className="flex flex-col justify-between w-full h-full border border-transparent border-r-gray-500 bg-back top-0 left-0 absolute z-20 items-center">
+          <div className="h-full w-11/12 fl flex flex-col items-center m-3 md:m-5 gap-3 justify-start">
 
             {/* header */}
             <div className="flex flex-col items-start gap-3 w-full">
@@ -45,9 +46,13 @@ const SideSettings = ({ props: {title, isOpen, sub, tabs} }: { props: SideType }
             <div className="w-full flex flex-row items-center justify-around bg-zinc-800 rounded-md h-8 md:h-10 gap-1 p-1">
               {
                 tabs.map((tab, i) => (
-                  <div className={`flex-1 flex items-center justify-center text-xs md:text-sm font-semibold text-fore rounded-sm h-full ${tabShown === tab.name ? "bg-back text-fore" : "bg-transparent text-gray-400"}`} key={i}
+                  <div className={`flex-1 flex items-center justify-center text-xs md:text-sm font-semibold text-fore rounded-sm h-full ${tabShown === tab.name || tabSettingsShown === tab.name ? "bg-back text-fore" : "bg-transparent text-gray-400"}`} key={i}
                   onClick={() => {
-                    if(tabShown !== tab.name) setTabShown(tab.name)
+                    if(title[0] === "Profile"){
+                      if(tabShown !== tab.name) setTabShown(tab.name)
+                    }else{
+                      if(tabSettingsShown !== tab.name) setTabSettingsShown(tab.name)
+                    }
                   }}>{tab.name}</div>
                 ))
               }
@@ -60,7 +65,7 @@ const SideSettings = ({ props: {title, isOpen, sub, tabs} }: { props: SideType }
                   tabs.map( ({ items, name }, i) => (
                     <React.Fragment key={i}>
                       {items.map( ( item, i) => (
-                        <div className={`flex flex-col items-start gap-2 w-full ${name===tabShown ? "block" : "hidden"}`} key={i}>
+                        <div className={`flex flex-col items-start gap-2 w-full ${name===tabShown || name===tabSettingsShown ? "block" : "hidden"}`} key={i}>
                           <label htmlFor={item.for}>{item.label}</label>
                           {item.content}
                         </div>
@@ -73,9 +78,9 @@ const SideSettings = ({ props: {title, isOpen, sub, tabs} }: { props: SideType }
 
           </div>
           {/** saving or canceling */}
-          <div className="flex flex-row justify-end gap-3 items-center">
-            <div className="flex items-center justify-center rounded-md h-10 w-24 bg-back text-fore font-normal text-md">Cancel</div>
-            <div className="flex items-center justify-center rounded-md h-10 w-24 bg-back text-foer font-normal text-md">Save</div>
+          <div className="flex flex-row justify-end gap-3 items-center w-full mb-8">
+            <div className="flex items-center justify-center rounded-md h-8 md:h-10 min-w-auto px-2 w-[30%] bg-back hover:bg-gray-500 text-fore font-normal text-md">Cancel</div>
+            <div className="flex items-center justify-center rounded-md h-8 md:h-10 min-w-auto px-2 w-[30%] mr-3 bg-fore text-back font-normal text-md hover">Save</div>
           </div>
         </motion.div>
       )}
