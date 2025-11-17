@@ -156,7 +156,7 @@ export default function Page() {
           <div ref={chatRef} className="mt-8 flex flex-col flex-1 w-full gap-2 flex-start overflow-y-auto msg pb-32">
             {
               messages.map(({from, content}, i) => (
-                <div key={i} className={`rounded-3xl text-sm md:text-md p-3 m-4 max-w-[90%] min-w-56 break-words ${from==="user"? "bg-fore text-back self-end rounded-br-none" : "bg-back border border-gray-500 self-start rounded-bl-none"}`}>
+                <div key={i} className={`rounded-3xl text-sm md:text-md p-3 m-4 max-w-[90%] min-w-56 break-words whitespace-pre-wrap ${from==="user"? "bg-fore text-back self-end rounded-br-none" : "bg-back border border-gray-500 self-start rounded-bl-none"}`}>
                   {content}
                 </div>
               ))
