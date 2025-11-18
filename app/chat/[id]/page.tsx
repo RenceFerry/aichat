@@ -141,7 +141,7 @@ export default function Page() {
         {showLogo ? (
           <div className="flex-1 flex flex-col items-center gap-4 m-auto w-full justify-center">
             <RiChatAiFill size={50} className="text-fore"/>
-            <span className="text-3xl font-extrabold self-center text-fore text-center px-8">What's Up {session?.user?.name?.split(' ')[0] || session?.user?.name}?</span>
+            <span className="text-3xl font-extrabold self-center text-fore text-center px-8">What is Up {session?.user?.name?.split(' ')[0] || session?.user?.name}?</span>
           </div>
         ) : null}
 
