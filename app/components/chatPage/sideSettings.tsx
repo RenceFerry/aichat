@@ -28,7 +28,7 @@ const SideSettings = ({ props: {title, isOpen, sub, tabs} }: { props: SideType }
                   <span className="font-semibold text-fore truncate text-md md:text-lg">{title[0]}</span>
                 </div>
 
-                <button className="px-4 h-8 w-[30%] min-w-28 max-w-36 bg-fore flex flex-row items-center justify-center rounded-md hover">
+                <button type="button" title="logout or home" className="px-4 h-8 w-[30%] min-w-28 max-w-36 bg-fore flex flex-row items-center justify-center rounded-md hover">
                   {
                     <>
                       {title[2]}     

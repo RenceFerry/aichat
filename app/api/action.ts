@@ -1,6 +1,6 @@
 'use server'
 
-import { sql } from '@/lib/db'
+import { supabase } from '@/lib/db'
 import { SignUpSchema, FormState, SignInSchema } from '@/lib/definition'
 import z from 'zod'
 import  bcrypt  from 'bcryptjs'
@@ -8,12 +8,14 @@ import { signIn } from '@/../auth'
 import { redirect } from 'next/navigation'
 
 export async function signUpAction(state: FormState, formData: FormData) {
+  // validate formdate 
   const validatedData = SignUpSchema.safeParse({
     name: formData.get('name'),
     email: formData.get('email'),
     password: formData.get('password'),
   })
 
+  //if not success then return error
   if (!validatedData.success) {
     return {
       errors: z.treeifyError(validatedData.error),
@@ -25,27 +27,25 @@ export async function signUpAction(state: FormState, formData: FormData) {
 
   const hashedPassword = await bcrypt.hash(password, 10)
 
-  let id;
+  //insert user to db
+  const { data, error } = await supabase
+    .from('users')
+    .insert({
+      name: name,
+      email: email,
+      password: hashedPassword
+    })
+    .select("id")
+    .single();
 
-  try {
-    await sql`
-      INSERT INTO users(name, email, password) values(${name}, ${email}, ${hashedPassword})
-    `
-
-    id = await sql`
-      SELECT id FROM users WHERE email = ${email}
-    `
-  } catch (error: any) {
-    console.error('Error inserting user:', error)
-    if (error.code === '23505') {
-      return {
-        message: 'Email already in use. Sign in instead?',
-      }
+  if (error) {
+    if (error.code === "23505") {
+      return { message: "Email already exist try another one"}
     }
-    return {
-      message: 'Failed to create user',
-    }
+    return { message: "Sign Up Failed" };
   }
+
+  const id = data.id;
 
   const isSignedIn = await signIn('credentials', {
     redirect: false,
@@ -59,7 +59,7 @@ export async function signUpAction(state: FormState, formData: FormData) {
     }
   }
 
-  redirect(`/chat/${id[0].id}`);
+  redirect(`/chat/${id}`);
 
 }
 
@@ -76,39 +76,28 @@ export async function signInAction(state: FormState, formData: FormData) {
     }
   }
 
-  let user;
+  const { data, error } = await supabase
+    .from("users")
+    .select("*")
+    .eq("email", validatedData.data.email)
+    .single();
 
-  try {
-    user = await sql`
-      SELECT * FROM users WHERE email = ${validatedData.data.email}
-    `
-
-    if (user.length === 0) {
-      return {
-        message: 'No user found with this email. Sign up instead?',
-      }
+  if (error) {
+    if (error.code ===  "PGRST116") {
+      return { message: "No user found with this email. Sign in instead?"}
     }
-
-    console.log('Signing in user:', user[0]);
-
-    const isSignedIn = await signIn('credentials', {
-      redirect: false,
-      email: validatedData.data.email,
-      password: validatedData.data.password,
-    })
-
-    if (!isSignedIn || isSignedIn.error) {
-      return {
-        message: 'Invalid email or password',
-      }
-    }
-
-    
-  } catch (error) {
-    console.error('Error signing in:', error)
-    return {
-      message: 'Failed to sign in',
-    }
+    return { message: "Sign in failed"}
   }
-  redirect(`/chat/${user[0].id}`);
+
+  const isSignedIn = await signIn("credentials", {
+    redirect: false,
+    email: validatedData.data.email,
+    password: validatedData.data.password
+  })
+
+  if (!isSignedIn || isSignedIn.error) {
+    return { message: "Wrong password"}
+  }
+  
+  redirect(`/chat/${data.id}`);
 } 

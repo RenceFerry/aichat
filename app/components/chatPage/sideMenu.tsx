@@ -51,7 +51,7 @@ const SideMenu = ({ user, isOpen = true, setSettings, setProfile }: SideMenuProp
             <div className="flex flex-row items-center gap-3">
               {
                 user?.image && 
-                <button onClick={() => {setShowProfile(!showProfile); setShowSettings(false)}} className="hover h-full w-[30px]">
+                <button title="profile" type="button" onClick={() => {setShowProfile(!showProfile); setShowSettings(false)}} className="hover h-full w-[30px]">
                   <Image 
                     src={user.image} 
                     alt="user profile picture" 
@@ -62,7 +62,7 @@ const SideMenu = ({ user, isOpen = true, setSettings, setProfile }: SideMenuProp
                 </button>
               }
               <div className="hover flex justify-center items-center mr-5">
-                  <button className="hover" onClick={() => {setShowProfile(false); setShowSettings(!showSettings)}}>
+                  <button type="button" title="settings" className="hover" onClick={() => {setShowProfile(false); setShowSettings(!showSettings)}}>
                   <GoGear size={30} className="text-fore"/>
                 </button>
               </div>
@@ -71,7 +71,7 @@ const SideMenu = ({ user, isOpen = true, setSettings, setProfile }: SideMenuProp
           
           {/* side chats buttons */}  
           <div className="flex flex-col items-center gap-3 w-full">
-            <button className="flex flex-row justify-center items-center w-11/12  rounded-md text-back bg-fore hover:bg-fore gap-3 h-8 md:h-10">
+            <button type="button" title="new chat" className="flex flex-row justify-center items-center w-11/12  rounded-md text-back bg-fore hover:bg-fore gap-3 h-8 md:h-10">
               <FaPlus size={18} className="text-back"/>
               <span className="font-normal text-md md:text-lg">New Chat</span>
             </button>

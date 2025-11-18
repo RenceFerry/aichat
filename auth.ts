@@ -1,7 +1,7 @@
 import NextAuth from "next-auth"
 import Google from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials";
-import { sql } from "@/lib/db";
+import { supabase } from "@/lib/db";
 import bcrypt from "bcryptjs";
 
  
@@ -29,20 +29,24 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const email = credentials?.email as string;
         const password = credentials?.password as string;
 
-        const user = await sql`
-          SELECT * FROM users WHERE email = ${email}
-        `;
+        const { data, error } = await supabase
+          .from("users")
+          .select("*")
+          .eq("email", email)
+          .single()
 
-        if (!user[0].password) {
+        if (error) return null;
+
+        if (!data.password) {
           return null;
         }
 
-        const isValid = await bcrypt.compare(password, user[0].password)
+        const isValid = await bcrypt.compare(password, data.password)
 
         if (!isValid) {
           return null;
         }
-        return { id: user[0].id, email: user[0].email, name: user[0].name};
+        return { id: data.id, email: data.email, name: data.name};
       }
     })
     
@@ -54,23 +58,28 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (account?.provider === 'google') {
         try {
           // Check if user exists
-          const existingUser = await sql`
-            SELECT * FROM users WHERE email = ${user.email}
-          `;
+          const { data, error } = await supabase
+            .from("users")
+            .select("*")
+            .eq("email", user.email)
+            .single()
 
-          if (existingUser.length === 0) {
+          if (!data) {
             // Create new user if doesn't exist
-            await sql`
-              INSERT INTO users (name, email, image)
-              VALUES (${user.name}, ${user.email}, ${user.image})
-            `;
-            // Get the new user's ID
-            const newUser = await sql`
-              SELECT id FROM users WHERE email = ${user.email}
-            `;
-            user.id = newUser[0].id;
+            const { data, error } = await supabase
+              .from("users")
+              .insert({
+                name: user.name,
+                email: user.email,
+                image: user.image,
+              })
+              .select("id")
+              .single();
+            if (error) return false;
+            
+            user.id = data.id;
           } else {
-            user.id = existingUser[0].id;
+            user.id = data.id;
           }
           return true;
         } catch (error) {

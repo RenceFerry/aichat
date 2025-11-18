@@ -1,3 +1,4 @@
+
 'use client'
 
 import { RiArrowLeftWideFill } from "react-icons/ri";
@@ -10,7 +11,7 @@ import  SideMenu  from '@/components/chatPage/sideMenu'
 import { AnimatePresence, motion } from "framer-motion";
 import React from 'react';
 import { IoIosSend } from "react-icons/io";
-import { div } from "framer-motion/client";
+import ReactMarkdown  from 'react-markdown';
 
 interface Messages {
   from: "user" | "ai";
@@ -99,9 +100,10 @@ export default function Page() {
         updated[updated.length - 1] = lastMsg;
         return updated;
       });
+
+      console.log(messages[messages.length-1].content)
     }
   };
-
 
   return (
     <div className="flex flex-row h-full w-full relative overflow-hidden" style={{
@@ -157,7 +159,7 @@ export default function Page() {
             {
               messages.map(({from, content}, i) => (
                 <div key={i} className={`rounded-3xl text-sm md:text-md p-3 m-4 max-w-[90%] min-w-56 break-words whitespace-pre-wrap ${from==="user"? "bg-fore text-back self-end rounded-br-none" : "bg-back border border-gray-500 self-start rounded-bl-none"}`}>
-                  {content}
+                  <ReactMarkdown>{content}</ReactMarkdown>
                 </div>
               ))
             }
