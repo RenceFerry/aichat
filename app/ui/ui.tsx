@@ -52,7 +52,7 @@ export const sideProfileProps = {
         {
           for: "image",
           label: "Profile image",
-          content: <Button className="p-2 bg-fore rounded-md w-full text-back" name='image' type="button" children="Set profile image"/>
+          content: <Button className="p-2 bg-fore rounded-md w-full text-back" name='image' type="button">Set profile Image</Button>
         },
         {
           for: "iam",
@@ -95,7 +95,7 @@ export const sideSettingsProps = {
         {
           for: "workimage",
           label: "Workspace image",
-          content: <Button className="p-2 bg-fore rounded-md w-full text-back" name='workimage' type="button" children="Set workspace image"/>
+          content: <Button className="p-2 bg-fore rounded-md w-full text-back" name='workimage' type="button">Set workspace image</Button>
         },
       ]
     },

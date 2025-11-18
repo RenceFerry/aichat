@@ -7,11 +7,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import SideSettings from "@/components/chatPage/sideSettings"
 import { ThemeToggler } from "@/components/home/themeToggler";
 import { sideProfileProps, sideSettingsProps } from "@/ui/ui";
-import {useEffect} from "react";
 import React from 'react';
 
 interface SideMenuProps {
-  user: any;
+  user: {
+    name?: string | null | undefined,
+    image?: string | null | undefined,
+    id?: string | undefined,
+    email?: string | undefined | null
+  } | undefined;
   isOpen?: boolean;
   setSettings: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
   setProfile: [boolean, React.Dispatch<React.SetStateAction<boolean>>];

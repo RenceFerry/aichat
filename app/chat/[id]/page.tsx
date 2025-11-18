@@ -24,12 +24,9 @@ export default function Page() {
   const [ isMediaQuery, setIsMediaQuery ] = useState(false);
   const [ showSettings, setShowSettings ] = useState(false);
   const [ showProfile, setShowProfile ] = useState(false);
-  const [ bottom, setBottom ] = useState("2.5rem");
-  const [output, setOutput] = useState("");
   const [ showLogo, setShowLogo ] = useState(true);
   const [ messages, setMessages ] = useState<Messages[]>([]);
   const chatRef = useRef<HTMLDivElement>(null);
-  let keyboardOpen;
 
   useEffect(() => {
     const checkMediaQuery = () => {
@@ -41,11 +38,6 @@ export default function Page() {
     
     // Add resize listener
     window.addEventListener('resize', checkMediaQuery);
-    
-    keyboardOpen = () => {
-      //const bottomPx = window.innerHeight - (window.visualViewport.height || 0);
-      setBottom(`${bottom}px`)
-    }
     // Cleanup
     return () => window.removeEventListener('resize', checkMediaQuery);
   }, []);
@@ -176,7 +168,6 @@ export default function Page() {
               maxHeight="200px"
               minHeight="50px"
               name="prompt"
-              onFocus={keyboardOpen}
             />
             <div className="absolute top-0 right-0 h-full flex justify-center items-center pr-2">
               <button title="submit" type="submit" className="bg-fore w-10 h-10 flex justify-center items-center rounded-md hover"><IoIosSend size={30} className="text-back"/></button>

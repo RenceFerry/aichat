@@ -67,7 +67,7 @@ export default function Page() {
             state?.message && 
             <p className='text-red-400 font-normal'>{state.message}</p>
           }
-          <span className='text-normal text-sm text-gray-400'>Don't have an account? <Link className='text-blue-400' href='/signup'>Sign up</Link></span>
+          <span className='text-normal text-sm text-gray-400'>Do not have an account? <Link className='text-blue-400' href='/signup'>Sign up</Link></span>
           <br />
           <span className='text-normal text-sm text-gray-400'>Forgot password? <span className='text-blue-400' onClick={Reset}>Reset</span></span>
         </form>
